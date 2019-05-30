@@ -19,11 +19,23 @@ public class FragmentA1 extends Fragment implements IFragmentA {
     private ICoreA core;
     private IActivity activity;
 
+    private static MyComponent component;
+
     @Override
     public void onAttach(final Context context) {
 
         super.onAttach(context);
         activity = (IActivity) context;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+
+        component = DaggerMyComponent.builder()
+                .contextModule(new ContextModule(requireActivity()))
+                .build();
     }
 
     @Override
@@ -52,6 +64,10 @@ public class FragmentA1 extends Fragment implements IFragmentA {
 
     public void setCore(ICoreA core){
         this.core = core;
+    }
+
+    public static MyComponent getMyComponent() {
+        return component;
     }
 
 }
